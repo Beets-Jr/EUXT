@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Tool {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String
+  url         String
+  image_url   String
+
+  categories Category[]
+  tags       Tag[]
+
+  @@map("tools")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+
+  tools Tool[]
+
+  @@map("categories")
+}
+
+model Question {
+  id       String   @id @default(uuid())
+  question String
+  answer   Answer[]
+
+  @@map("questions")
+}
+
+model Answer {
+  id     String @id @default(uuid())
+  answer String
+
+  question    Question @relation(fields: [question_id], references: [id])
+  question_id String
+
+  tags Tag[]
+
+  @@map("answers")
+}
+
+model Tag {
+  id   String @id @default(uuid())
+  name String @unique
+
+  tools  Tool[]
+  answer Answer[]
+
+  @@map("tags")
+}
