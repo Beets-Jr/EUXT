@@ -174,8 +174,6 @@ async function getToolsPrototyping() {
 async function getToolsEvaluation() {
   try {
     const response = await axios.get("http://localhost:3000/api/tools/category/evaluation")
-
-    console.log(response.status)
     const { data } = response;
 
     const tools = data.map((tool: toolsQuery) => {

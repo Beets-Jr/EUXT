@@ -34,6 +34,5 @@ export default async function handler(
   if (tool.length === 0) {
     return response.status(404).end("Not found tools")
   }
-
   return response.json(tool)
 }

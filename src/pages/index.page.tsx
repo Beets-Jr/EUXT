@@ -8,15 +8,11 @@ import beetsjr from '../../public/beetsjr.png'
 import Helper from '@/components/Helper'
 
 export default function Home() {
-  
-
-  // const { data: toolsResearch }  = useQuery<tools[]>({queryKey: ['toolsResearch'], queryFn: getToolsResearch})
-
   return (
-    <>
+    <div className='min-h-screen'>
       <main>
-        <div className='fixed p-2'>
-          <Helper styleProps="-mt-10"/>
+        <div className='py-2'>
+          <Helper styleProps="-mt-10 fixed"/>
         </div>
         <section className="flex justify-center mb-60 mt-32" id="home">
           <iframe
@@ -29,10 +25,7 @@ export default function Home() {
             className="rounded-md"
           />
         </section>
-        <section
-          className="flex flex-col items-center h-screen gap-14 m-2"
-          id="uxtoolkit"
-        >
+        <section className="flex flex-col items-center min-h-screen mb-60 gap-14 m-2" id="uxtoolkit">
           <h2 className="font-bold text-5xl text-neutral-500">UX ToolKit</h2>
           <div className="flex xl:flex-row md:flex-col items-center gap-5">
             <Image src={illustrtion1} width={664} height={463} alt="" />
@@ -51,10 +44,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section
-          className="flex flex-col items-center h-screen gap-14 xl:mt-10 md:mt-44"
-          id="about"
-        >
+        <section className="flex flex-col items-center min-h-screen mb-48 gap-14 m-2" id="about">
           <h2 className="font-bold text-5xl text-neutral-500">About</h2>
           <div className="flex xl:flex-row md:flex-col items-center xl:gap-20 md:gap-2">
             <Image src={uxLerisLogo} width={340} height={340} alt="" />
@@ -74,7 +64,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="bg-zinc-900 flex justify-between w-full items-center py-3 px-40 lg:flex-row md:px-20 md:flex-col md:gap-20">
+      <footer className="bg-zinc-900 mt-auto flex justify-between w-full items-center py-10 px-40 lg:flex-row md:px-20 md:flex-col md:gap-20">
         <div className="flex flex-col lg:gap-11 md:gap-2">
           <div className="flex gap-5">
             <Image
@@ -113,6 +103,6 @@ export default function Home() {
           </Link>
         </div>
       </footer>
-    </>
+    </div>
   )
 }

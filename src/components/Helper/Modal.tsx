@@ -68,7 +68,6 @@ export default function Modal({open = false, onClose }: modalProps){
 
     setanswerTags([...answerTags])
   };
-  console.log(answerTags)
 
   return !open ? null : (
     <>

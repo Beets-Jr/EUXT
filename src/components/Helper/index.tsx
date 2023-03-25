@@ -11,10 +11,7 @@ interface HelperProps {
 export default function Helper({styleProps = ""}: HelperProps){
   const [isOpen, setIsOpen] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
-
-  function handleOpenModal(showModal: boolean) {
-    setIsOpen(showModal)
-  }
+  const [stop, setStop] = useState(true)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,12 +21,17 @@ export default function Helper({styleProps = ""}: HelperProps){
     return () => clearInterval(interval)
   }, [])
 
-  function handleCloseModal() {
-    setIsOpen(false)
+  function handleOpenModal(showModal: boolean) {
+    setIsOpen(showModal)
+  }
+
+  function handleCloseModal(showModal: boolean) {
+    setIsOpen(showModal)
   }
   
   const handleEnter = () => {
-    setShowTooltip(false);
+    setShowTooltip(false)
+    setStop(false)
   };
 
 
@@ -38,8 +40,8 @@ export default function Helper({styleProps = ""}: HelperProps){
       <button onClick={() => handleOpenModal(true)} onMouseEnter={handleEnter} className="bg-gold rounded-full h-20 w-20 flex items-center justify-center cursor-pointer hover:scale-125 ease-in duration-300 m-16">
         <Image className="h-12 w-12 " src={helper} alt="" />
       </button>
-      {showTooltip && (<span className="absolute -top-2 left-2 bg-blue-500 text-white px-2 py-1 rounded transition duration-300 z-10">Hello, can I assist you?</span>) }
-      <Modal open={isOpen} onClose={() => setIsOpen(false)}/>
+      {showTooltip && stop && (<span className="absolute -top-2 left-2 bg-blue-500 text-white px-2 py-1 rounded transition duration-300 z-10">Hello, can I assist you?</span>) }
+      <Modal open={isOpen} onClose={() => handleCloseModal(false)}/>
     </div>
   )
 }

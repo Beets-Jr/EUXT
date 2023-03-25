@@ -54,11 +54,9 @@ export default function Menu({
     setShowTooltipEvaluation(false);
   };
 
-
-
   return (
     <>
-      <div className="flex flex-col gap-8 ml-6 fixed">
+      <div className="flex flex-col gap-8 ml-6 relative">
         <Helper styleProps="-mb-[350px] -ml-20"/>
         <div>
           <button onClick={handleResearch} onMouseEnter={handleMouseEnterResearch}  onMouseLeave={handleMouseLeaveResearch} className="relative bg-gold900 w-20 h-20 rounded-full flex items-center justify-center cursor-pointer hover:scale-125 ease-in duration-300">
