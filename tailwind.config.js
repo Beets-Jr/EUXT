@@ -10,6 +10,9 @@ module.exports = {
         gold200: '#d8b661',
         gold100: '#f2e18d',
       },
+      fontFamily: {
+        sans: 'Poppins, sans-serif'
+      },
     },
   },
   plugins: [],
