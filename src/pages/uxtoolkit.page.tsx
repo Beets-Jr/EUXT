@@ -2,6 +2,7 @@ import Card from '@/components/Card'
 import Menu from '@/components/Menu'
 
 import { api } from '@/lib/axios'
+import { prisma } from '@/lib/prisma'
 import { useQuery } from '@tanstack/react-query'
 import { GetStaticProps } from 'next'
 import { useState } from 'react'
@@ -17,18 +18,26 @@ interface toolsQuery {
 
 interface tools {
   id: string
-  title: string
-  image: string
+  name: string
+  image_url: string
   description: string
-  link: string
+  url: string
 }
 
-export default function UXtoolkit() {
+interface UXtoolkitPros {
+  toolsResearch: tools[]
+  toolsEvaluation: tools[]
+  toolsPrototyping: tools[]
+  toolsIdeation: tools[]
+}
 
-  const { data: toolsResearch }  = useQuery<tools[]>({queryKey: ['toolsResearch'], queryFn: getToolsResearch})
-  const { data: toolsPrototyping }  = useQuery<tools[]>({queryKey: ['toolsPrototyping'], queryFn: getToolsPrototyping})
-  const { data: toolsIdeation }  = useQuery<tools[]>({queryKey: ['toolsIdeation'], queryFn: getToolsIdeation})
-  const { data: toolsEvaluation }  = useQuery<tools[]>({queryKey: ['toolsEvaluation'], queryFn: getToolsEvaluation})
+
+export default function UXtoolkit ({ toolsResearch, toolsEvaluation, toolsIdeation, toolsPrototyping} : UXtoolkitPros) {
+
+  // const { data: toolsResearch, isLoading }  = useQuery<tools[]>({queryKey: ['toolsResearch'], queryFn: getToolsResearch})
+  // const { data: toolsPrototyping }  = useQuery<tools[]>({queryKey: ['toolsPrototyping'], queryFn: getToolsPrototyping})
+  // const { data: toolsIdeation }  = useQuery<tools[]>({queryKey: ['toolsIdeation'], queryFn: getToolsIdeation})
+  // const { data: toolsEvaluation }  = useQuery<tools[]>({queryKey: ['toolsEvaluation'], queryFn: getToolsEvaluation})
 
   const [tools, setTools] = useState<tools[] | undefined>(toolsResearch)
   const [categoryTitle, setCategoryTitle] = useState("Research")
@@ -69,10 +78,10 @@ export default function UXtoolkit() {
                 return(
                 <Card
                   key={tool.id}
-                  title={tool.title}
-                  imageLink={tool.image}
+                  title={tool.name}
+                  imageLink={tool.image_url}
                   description={tool.description}
-                  linkToTool={tool.link}
+                  linkToTool={tool.url}
                 />
                 )
               })}
@@ -185,10 +194,58 @@ async function getToolsEvaluation() {
   
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+
+  const toolsResearch = await prisma.tool.findMany({
+    where: {
+      categories: {
+        some: {
+          name: 'research',
+        },
+      },
+    },
+  })
+
+  const toolsPrototyping = await prisma.tool.findMany({
+    where: {
+      categories: {
+        some: {
+          name: 'prototyping',
+        },
+      },
+    },
+  })
+
+  const toolsEvaluation = await prisma.tool.findMany({
+    where: {
+      categories: {
+        some: {
+          name: 'evaluation',
+        },
+      },
+    },
+  })
+
+
+  const toolsIdeation = await prisma.tool.findMany({
+    where: {
+      categories: {
+        some: {
+          name: 'ideation',
+        },
+      },
+    },
+  })
+
 
   return {
-    props: {},
-    revalidate: 10,
+    props: {
+      toolsResearch,
+      toolsEvaluation,
+      toolsPrototyping,
+      toolsIdeation,
+    },
+    revalidate: 60 * 60 * 24, // 1 day
   }
 }
