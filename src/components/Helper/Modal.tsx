@@ -6,8 +6,8 @@ import Link from 'next/link';
 import 'swiper/css';
 import { Navigation } from 'swiper';
 import { AiOutlineClose } from 'react-icons/ai';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { api } from '@/lib/axios';
 
 type tagsProps = {
   id: string;
@@ -160,7 +160,7 @@ export default function Modal({open = false, onClose }: modalProps){
 
 async function getQuestions () {
   try {
-    const response = await axios.get("http://localhost:3000/api/questions/get")
+    const response = await api.get("/questions/get")
     const { data } = response
 
     const questions: questionProps[] = data.map((question: questionProps) => {

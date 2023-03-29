@@ -1,9 +1,10 @@
 import Card from '@/components/Card'
 import Menu from '@/components/Menu'
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { GetStaticProps } from 'next';
-import { useState } from 'react';
+
+import { api } from '@/lib/axios'
+import { useQuery } from '@tanstack/react-query'
+import { GetStaticProps } from 'next'
+import { useState } from 'react'
 
 
 interface toolsQuery {
@@ -22,22 +23,12 @@ interface tools {
   link: string
 }
 
-interface UXtoolkitProps {
-  toolsIdeation: tools[]
-  toolsResearch: tools[]
-  toolsPrototyping: tools[]
-  toolsEvaluation: tools[]
-}
+export default function UXtoolkit() {
 
-export default function UXtoolkit({toolsIdeation,
-  toolsResearch,
-  toolsPrototyping,
-  toolsEvaluation}: UXtoolkitProps) {
-
-  // const { data: toolsResearch }  = useQuery<tools[]>({queryKey: ['toolsResearch'], queryFn: getToolsResearch})
-  // const { data: toolsPrototyping }  = useQuery<tools[]>({queryKey: ['toolsPrototyping'], queryFn: getToolsPrototyping})
-  // const { data: toolsIdeation }  = useQuery<tools[]>({queryKey: ['toolsIdeation'], queryFn: getToolsIdeation})
-  // const { data: toolsEvaluation }  = useQuery<tools[]>({queryKey: ['toolsEvaluation'], queryFn: getToolsEvaluation})
+  const { data: toolsResearch }  = useQuery<tools[]>({queryKey: ['toolsResearch'], queryFn: getToolsResearch})
+  const { data: toolsPrototyping }  = useQuery<tools[]>({queryKey: ['toolsPrototyping'], queryFn: getToolsPrototyping})
+  const { data: toolsIdeation }  = useQuery<tools[]>({queryKey: ['toolsIdeation'], queryFn: getToolsIdeation})
+  const { data: toolsEvaluation }  = useQuery<tools[]>({queryKey: ['toolsEvaluation'], queryFn: getToolsEvaluation})
 
   const [tools, setTools] = useState<tools[] | undefined>(toolsResearch)
   const [categoryTitle, setCategoryTitle] = useState("Research")
@@ -94,7 +85,7 @@ export default function UXtoolkit({toolsIdeation,
 
 async function getToolsIdeation() {
   try {
-    const response = await axios.get("http://localhost:3000/api/tools/category/ideation");
+    const response = await api.get("/tools/category/ideation");
     
     if(response.status === 404) {
       return null;
@@ -120,7 +111,8 @@ async function getToolsIdeation() {
 
 async function getToolsResearch() {
   try {
-    const response = await axios.get("http://localhost:3000/api/tools/category/research");
+    const response = await api.get("/tools/category/research");
+    console.log(response)
     
     if(response.status === 404) {
       return null;
@@ -146,7 +138,7 @@ async function getToolsResearch() {
 
 async function getToolsPrototyping() {
   try {
-    const response = await axios.get("http://localhost:3000/api/tools/category/prototyping");
+    const response = await api.get("/tools/category/prototyping");
     
       if(response.status === 404) {
           return null;
@@ -173,7 +165,7 @@ async function getToolsPrototyping() {
 
 async function getToolsEvaluation() {
   try {
-    const response = await axios.get("http://localhost:3000/api/tools/category/evaluation")
+    const response = await api.get("/tools/category/evaluation")
     const { data } = response;
 
     const tools = data.map((tool: toolsQuery) => {
@@ -195,18 +187,8 @@ async function getToolsEvaluation() {
 
 export const getStaticProps: GetStaticProps = async () => {
 
-  const toolsIdeation = await getToolsIdeation()
-  const toolsResearch = await getToolsResearch()
-  const toolsPrototyping = await getToolsPrototyping()
-  const  toolsEvaluation = await getToolsEvaluation()
-
   return {
-    props: {
-      toolsIdeation,
-      toolsResearch,
-      toolsPrototyping,
-      toolsEvaluation,
-    },
+    props: {},
     revalidate: 10,
   }
 }
