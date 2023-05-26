@@ -3,7 +3,6 @@ import Menu from '@/components/Menu'
 
 import { api } from '@/lib/axios'
 import { prisma } from '@/lib/prisma'
-import { useQuery } from '@tanstack/react-query'
 import { GetStaticProps } from 'next'
 import { useState } from 'react'
 
@@ -33,11 +32,6 @@ interface UXtoolkitPros {
 
 
 export default function UXtoolkit ({ toolsResearch, toolsEvaluation, toolsIdeation, toolsPrototyping} : UXtoolkitPros) {
-
-  // const { data: toolsResearch, isLoading }  = useQuery<tools[]>({queryKey: ['toolsResearch'], queryFn: getToolsResearch})
-  // const { data: toolsPrototyping }  = useQuery<tools[]>({queryKey: ['toolsPrototyping'], queryFn: getToolsPrototyping})
-  // const { data: toolsIdeation }  = useQuery<tools[]>({queryKey: ['toolsIdeation'], queryFn: getToolsIdeation})
-  // const { data: toolsEvaluation }  = useQuery<tools[]>({queryKey: ['toolsEvaluation'], queryFn: getToolsEvaluation})
 
   const [tools, setTools] = useState<tools[] | undefined>(toolsResearch)
   const [categoryTitle, setCategoryTitle] = useState("Research")
@@ -246,6 +240,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       toolsPrototyping,
       toolsIdeation,
     },
-    revalidate: 60 * 60 * 24, // 1 day
+    revalidate: 60 * 60, // 1 hour
   }
 }
